@@ -22,7 +22,7 @@ public class Mission {
     @Column(name = "point", nullable = false)
     private Long point;
 
-    @Column(name = "condition", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "mission_condition", nullable = false, columnDefinition = "TEXT")
     private String condition;
 
     @Column(name = "deadline", nullable = false)
