@@ -78,8 +78,8 @@ jobs:
             docker pull $DOCKER_USER/umc:latest
           
             docker run -d --name umc -p 8080:8080 --restart=always \
-              -e DB_URL="${{ secrets.DB_URL }}" \
-              -e DB_USER="${{ secrets.DB_USER }}" \
-              -e DB_PW="${{ secrets.DB_PW }}" \
+              -e DB_URL="$DB_URL" \
+              -e DB_USER="$DB_USER" \
+              -e DB_PW="$DB_PW" \
               $DOCKER_USER/umc:latest
           EOF
