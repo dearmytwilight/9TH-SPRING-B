@@ -66,6 +66,9 @@ jobs:
           DOCKER_USER: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_PASS: ${{ secrets.DOCKER_HUB_PASSWORD }}
           EC2_HOST: ${{ secrets.EC2_HOST }}
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PW: ${{ secrets.DB_PW }}
         run: |
           ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@$EC2_HOST << EOF
             docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
@@ -74,4 +77,8 @@ jobs:
             docker rmi $DOCKER_USER/umc || true
             docker pull $DOCKER_USER/umc:latest
             docker run -d --name umc -p 8080:8080 --restart=always $DOCKER_USER/umc:latest
+              -e DB_URL="$DB_URL" \
+              -e DB_USER="$DB_USER" \
+              -e DB_PW="$DB_PW" \
+              $DOCKER_USER/umc:latest
           EOF
