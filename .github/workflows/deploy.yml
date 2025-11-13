@@ -76,9 +76,7 @@ jobs:
             docker rm umc || true
             docker rmi $DOCKER_USER/umc || true
             docker pull $DOCKER_USER/umc:latest
-            docker run -d --name umc -p 8080:8080 --restart=always $DOCKER_USER/umc:latest
-              -e DB_URL="$DB_URL" \
-              -e DB_USER="$DB_USER" \
-              -e DB_PW="$DB_PW" \
+            docker run -d --name umc -p 8080:8080 --restart=always $DOCKER_USER/umc:latest \
+              -e DB_URL="$DB_URL" -e DB_USER="$DB_USER" -e DB_PW="$DB_PW" \
               $DOCKER_USER/umc:latest
           EOF
