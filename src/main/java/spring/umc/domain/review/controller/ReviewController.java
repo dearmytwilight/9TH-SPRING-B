@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import spring.umc.domain.review.dto.ReviewResponseDto;
 import spring.umc.domain.review.repository.ReviewRepository;
 import spring.umc.domain.review.service.ReviewService;
+import spring.umc.global.apiPayload.ApiResponse;
+import spring.umc.global.apiPayload.code.GeneralSuccessCode;
 
 import java.util.List;
 
@@ -19,12 +21,18 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping("/my")
-    public ResponseEntity<List<ReviewResponseDto>> getMyReviews(
+    public ApiResponse<List<ReviewResponseDto>> getMyReviews(
             @RequestParam Long memberId,
             @RequestParam(required=false) String storeName,
             @RequestParam(required=false) Double star
     ) {
         List<ReviewResponseDto> result = reviewService.getMyReviews(memberId, storeName, star);
-        return ResponseEntity.ok(result);
+
+        if (result.isEmpty()) {
+            return ApiResponse.onSuccess(GeneralSuccessCode.NO_CONTENT, result);
+        }
+
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
+
 }
