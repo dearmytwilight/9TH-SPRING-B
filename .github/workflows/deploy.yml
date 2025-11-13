@@ -21,7 +21,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       
-      # 2-1. Gradle 캐시 설정 (속도 향상)
+      # 2-1. Gradle 캐시 설정 (속도 향상 목적)
       - name: Cache Gradle packages
         uses: actions/cache@v4
         with:
