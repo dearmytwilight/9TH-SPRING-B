@@ -1,11 +1,11 @@
 package spring.umc.domain.review.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import spring.umc.domain.review.dto.ReviewCreateRequest;
+import spring.umc.domain.review.dto.ReviewCreateResponse;
 import spring.umc.domain.review.dto.ReviewResponseDto;
 import spring.umc.domain.review.repository.ReviewRepository;
 import spring.umc.domain.review.service.ReviewService;
@@ -27,12 +27,17 @@ public class ReviewController {
             @RequestParam(required=false) Double star
     ) {
         List<ReviewResponseDto> result = reviewService.getMyReviews(memberId, storeName, star);
-
-        if (result.isEmpty()) {
-            return ApiResponse.onSuccess(GeneralSuccessCode.NO_CONTENT, result);
-        }
-
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
+    }
+
+    @PostMapping("/")
+    public ApiResponse<ReviewCreateResponse> createReview(
+            @Valid @RequestBody ReviewCreateRequest request
+    ) {
+        return ApiResponse.onSuccess(
+                GeneralSuccessCode.CREATED,
+                reviewService.createReview(request)
+        );
     }
 
 }
