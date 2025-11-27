@@ -26,5 +26,4 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
 
     // 미션 매칭시 사용 (지금 이미 매칭되어서 진행 중인 미션인지 확인)
     boolean existsByMemberIdAndMissionIdAndIsCompleteFalse(Long memberId, Long missionId);
-
 }

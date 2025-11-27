@@ -6,7 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import spring.umc.domain.member.entity.Member;
 import spring.umc.domain.member.repository.MemberRepository;
+import spring.umc.domain.mission.converter.MemberMissionConverter;
 import spring.umc.domain.mission.converter.MissionConverter;
+import spring.umc.domain.mission.dto.MemberMissionResponseDto;
 import spring.umc.domain.mission.dto.MissionChallengeRequest;
 import spring.umc.domain.mission.dto.MissionChallengeResponse;
 import spring.umc.domain.mission.dto.MissionResponseDto;
@@ -57,5 +59,14 @@ public class MissionService {
         Page<Mission> missionPage = missionRepository.findByStoreId(storeId, pageable);
 
         return MissionConverter.toMissionListDto(missionPage);
+    }
+
+    public MemberMissionResponseDto.MemberMissionListDto getOngoingMissions (
+            Long memberId,
+            Pageable pageable) {
+        Page<MemberMission> missionPage =
+                memberMissionRepository.findByOngoingMissionByMemberId(memberId, pageable);
+
+        return MemberMissionConverter.toMemberMissionListDto(missionPage);
     }
 }
