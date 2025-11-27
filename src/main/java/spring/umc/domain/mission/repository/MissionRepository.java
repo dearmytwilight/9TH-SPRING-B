@@ -24,4 +24,6 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
             @Param("locationName") String locationName,
             Pageable pageable
     );
+
+    Page<Mission> findByStoreId(Long storeId, Pageable pageable);
 }

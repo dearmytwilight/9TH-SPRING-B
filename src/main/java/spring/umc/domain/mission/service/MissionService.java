@@ -1,11 +1,15 @@
 package spring.umc.domain.mission.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import spring.umc.domain.member.entity.Member;
 import spring.umc.domain.member.repository.MemberRepository;
+import spring.umc.domain.mission.converter.MissionConverter;
 import spring.umc.domain.mission.dto.MissionChallengeRequest;
 import spring.umc.domain.mission.dto.MissionChallengeResponse;
+import spring.umc.domain.mission.dto.MissionResponseDto;
 import spring.umc.domain.mission.entity.MemberMission;
 import spring.umc.domain.mission.entity.Mission;
 import spring.umc.domain.mission.repository.MemberMissionRepository;
@@ -47,5 +51,11 @@ public class MissionService {
                 .missionId(mission.getId())
                 .isComplete(saved.getIsComplete())
                 .build();
+    }
+
+    public MissionResponseDto.MissionListDto getMissionsByStore (Long storeId, Pageable pageable) {
+        Page<Mission> missionPage = missionRepository.findByStoreId(storeId, pageable);
+
+        return MissionConverter.toMissionListDto(missionPage);
     }
 }
