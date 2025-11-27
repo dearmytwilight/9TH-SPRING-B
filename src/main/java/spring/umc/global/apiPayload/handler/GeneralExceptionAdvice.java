@@ -7,6 +7,7 @@ import spring.umc.global.apiPayload.ApiResponse;
 import spring.umc.global.apiPayload.code.BaseErrorCode;
 import spring.umc.global.apiPayload.code.GeneralErrorCode;
 import spring.umc.global.apiPayload.exception.GeneralException;
+import spring.umc.global.exception.InvalidPageException;
 
 @RestControllerAdvice
 public class GeneralExceptionAdvice {
@@ -35,5 +36,17 @@ public class GeneralExceptionAdvice {
                         ex.getMessage()
                 )
         );
+    }
+
+    @ExceptionHandler(InvalidPageException.class)
+    public ResponseEntity<ApiResponse<Void>> handlerException(
+            InvalidPageException ex
+    ) {
+        return ResponseEntity.status(ex.getCode().getStatus())
+                .body(ApiResponse.onFailure(
+                        ex.getCode(),
+                        null
+                    )
+                );
     }
 }

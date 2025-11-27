@@ -1,9 +1,12 @@
 package spring.umc.domain.review.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import spring.umc.domain.member.entity.Member;
 import spring.umc.domain.member.repository.MemberRepository;
+import spring.umc.domain.review.converter.ReviewConverter;
 import spring.umc.domain.review.dto.ReviewCreateRequest;
 import spring.umc.domain.review.dto.ReviewCreateResponse;
 import spring.umc.domain.review.dto.ReviewResponseDto;
@@ -22,19 +25,13 @@ public class ReviewService {
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
 
-    public List<ReviewResponseDto> getMyReviews(Long memberId, String storeName, Double star) {
-        return reviewRepository.findMyReviews(memberId, storeName, star)
-                .stream()
-                .map(r -> new ReviewResponseDto(
-                        r.getId(),
-                        r.getMember().getNickname(),
-                        r.getStore().getName(),
-                        r.getContent(),
-                        r.getStar(),
-                        r.getCreatedAt()
-                ))
-                .toList();
 
+    public ReviewResponseDto.ReviewPreviewListDto getMyReviewList(
+            Long memberId,
+            Pageable pageable
+    ) {
+        Page<Review> reviewPage = reviewRepository.findByMemberId(memberId, pageable);
+        return ReviewConverter.toPreviewListDto(reviewPage);
     }
 
     public ReviewCreateResponse createReview(ReviewCreateRequest request) {

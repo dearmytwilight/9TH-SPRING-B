@@ -1,5 +1,7 @@
 package spring.umc.domain.review.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,5 +16,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewQue
     List<Review> findAllByStoreIdOrderByCreatedAtDesc(Long storeId);
 
     // 특정 회원이 작성한 리뷰 리스트 (마이페이지부분에서 연결됨)
-    List<Review> findByMemberId(Long memberId);
+    Page<Review> findByMemberId(Long memberId, Pageable pageable);
 }
