@@ -5,6 +5,7 @@ import lombok.*;
 import spring.umc.domain.member.enums.Address;
 import spring.umc.domain.member.enums.Sex;
 import spring.umc.domain.member.enums.SocialType;
+import spring.umc.global.auth.enums.Role;
 import spring.umc.global.entity.BaseEntity;
 
 import java.time.LocalDate;
@@ -26,7 +27,7 @@ public class Member extends BaseEntity {
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @Column(name = "social_email", nullable = false, unique = true, length = 100)
+    @Column(name = "social_email", unique = true, length = 100, nullable = true)
     private String socialEmail;
 
     @Column(name = "password", nullable = false, length = 255)
@@ -61,7 +62,12 @@ public class Member extends BaseEntity {
     private Long point = 0L;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "social_type", nullable = false, length = 20)
+    @Column(name = "social_type", length = 20, nullable = true)
     private SocialType socialType;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Column(nullable = false, unique = true)
+    private String email;
 }
